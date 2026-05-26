@@ -41,6 +41,9 @@ app/linux/flutter/generated_plugins.cmake
 app/macos/Flutter/GeneratedPluginRegistrant.swift
 app/web/flutter_service_worker.js
 
+# Claude Code
+.claude/
+
 # VS Code
 .vscode/settings.json
 .vscode/tasks.json
