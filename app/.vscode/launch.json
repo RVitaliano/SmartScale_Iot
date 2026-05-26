@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SmartScale",
+      "request": "launch",
+      "type": "dart",
+      "device": "edge",
+      "args": [
+        "--dart-define=TAGO_TOKEN=SEU_TOKEN_AQUI"
+      ]
+    }
+  ]
+}
