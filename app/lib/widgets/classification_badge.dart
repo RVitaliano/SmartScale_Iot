@@ -9,15 +9,22 @@ class ClassificationBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = AppColors.fromClassificacao(classificacao);
-    return Chip(
-      avatar: CircleAvatar(backgroundColor: color, radius: 8),
-      label: Text(
-        classificacao,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.13),
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: color.withValues(alpha: 0.30)),
       ),
-      backgroundColor: color.withValues(alpha: 0.15),
-      side: BorderSide(color: color),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Text(
+        classificacao.toUpperCase(),
+        style: TextStyle(
+          color: color,
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.8,
+        ),
+      ),
     );
   }
 }

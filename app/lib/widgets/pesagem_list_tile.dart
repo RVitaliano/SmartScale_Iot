@@ -11,32 +11,43 @@ class PesagemListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fmt = DateFormat('dd/MM/yyyy HH:mm:ss');
-    return Card(
-      color: AppColors.surface,
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor:
-              AppColors.fromClassificacao(pesagem.classificacao).withValues(alpha: 0.2),
-          child: Text(
-            pesagem.pesoKg.toStringAsFixed(1),
-            style: TextStyle(
-              color: AppColors.fromClassificacao(pesagem.classificacao),
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+    final timeFmt = DateFormat('HH:mm:ss');
+    final isSobrepeso = pesagem.status.toLowerCase() == 'sobrepeso';
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: AppColors.outlineSoft),
+        ),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 68,
+            child: Text(
+              timeFmt.format(pesagem.timestamp.toLocal()),
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: AppColors.onSurfaceDim,
+              ),
             ),
           ),
-        ),
-        title: Text(
-          '${pesagem.pesoKg.toStringAsFixed(2)} kg',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(
-          fmt.format(pesagem.timestamp.toLocal()),
-          style: const TextStyle(color: Colors.grey, fontSize: 12),
-        ),
-        trailing: ClassificationBadge(classificacao: pesagem.classificacao),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              '${pesagem.pesoKg.toStringAsFixed(2)} kg',
+              style: TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: isSobrepeso ? AppColors.danger : AppColors.onSurface,
+              ),
+            ),
+          ),
+          ClassificationBadge(classificacao: pesagem.classificacao),
+        ],
       ),
     );
   }
