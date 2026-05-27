@@ -7,7 +7,7 @@
       "type": "dart",
       "device": "edge",
       "args": [
-        "--dart-define=TAGO_TOKEN=5081dd00-4929-43a7-bea2-ce0e81ba9af5"
+        "--dart-define=TAGO_TOKEN=TOKEN_TAGOIO"
       ]
     }
   ]

@@ -1,105 +1,43 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-*.egg-info/
-dist/
-build/
+# ─── FLUTTER — gerado automaticamente ───────────────────────────────────────
+app/.dart_tool/
+app/build/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/.metadata
+app/pubspec.lock
+app/*.iml
 
-# Variáveis de ambiente
+# Pastas de plataforma (geradas pelo flutter create, não precisam subir)
+app/android/
+app/ios/
+app/linux/
+app/macos/
+app/windows/
+
+# Web — só os gerados; os estáticos (index.html, manifest.json) ficam
+app/web/flutter_service_worker.js
+app/web/flutter_bootstrap.js
+
+# IntelliJ / Android Studio
+app/.idea/
+
+# ─── VS CODE ─────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/tasks.json
+# Manter launch.json (tem o --dart-define necessário para rodar)
+!app/.vscode/launch.json
+
+# ─── CLAUDE CODE ─────────────────────────────────────────────────────────────
+.claude/
+
+# ─── VARIÁVEIS DE AMBIENTE ───────────────────────────────────────────────────
 .env
 .env.*
 !.env.example
 
-# Docker
-docker-compose.override.yml
-
-# Flutter
-app/.dart_tool/
-app/.flutter-plugins
-app/.flutter-plugins-dependencies
-app/.flutter-plugins-dependencies
-app/build/
-app/.packages
-app/pubspec.lock
-app/.dart_tool/
-app/android/.gradle/
-app/android/local.properties
-app/android/key.properties
-app/ios/.symlinks/
-app/ios/Pods/
-app/ios/Flutter/Flutter.framework
-app/ios/Flutter/Flutter.podspec
-app/windows/flutter/generated_plugin_registrant.cc
-app/windows/flutter/generated_plugin_registrant.h
-app/windows/flutter/generated_plugins.cmake
-app/linux/flutter/generated_plugin_registrant.cc
-app/linux/flutter/generated_plugin_registrant.h
-app/linux/flutter/generated_plugins.cmake
-app/macos/Flutter/GeneratedPluginRegistrant.swift
-app/web/flutter_service_worker.js
-app/web/flutter_bootstrap.js
-
-# Claude Code
-.claude/
-
-# VS Code
-.vscode/settings.json
-.vscode/tasks.json
-# Manter launch.json para configuração do --dart-define
-!app/.vscode/launch.json
-
-# Arduino build
+# ─── ARDUINO / WOKWI ─────────────────────────────────────────────────────────
 smartscale/build/
 *.bin
 *.elf
 *.map
 *.hex
-
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-/coverage/
-
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release

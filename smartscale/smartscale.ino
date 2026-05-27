@@ -8,7 +8,10 @@
 // --- CONFIGURACOES DE REDE ---
 #define WIFI_SSID  "Wokwi-GUEST"
 #define WIFI_PASS  ""
-#define BRIDGE_URL "SUA_URL_NGROK" 
+
+// --- TAGOIO ---
+#define TAGO_TOKEN "TOKEN_TAGOIO"
+#define TAGO_URL   "https://api.tago.io/data"
 
 // --- OLED ---
 #define SCREEN_WIDTH 128
@@ -34,7 +37,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // --- VARIAVEIS GLOBAIS ---
 Servo myServo;
 int posicaoAtual = 90;
-unsigned long ultimaMedicao = 0;
+unsigned long ultimaMedicao = 0 - INTERVALO_MS;
 float pesoAtual = 0;
 
 long lerHX711() {
@@ -149,26 +152,36 @@ void conectarWiFi() {
   }
 }
 
-void enviarParaBridge(float peso, String status) {
+void enviarParaTagoIO(float peso, String classificacao) {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Wi-Fi nao conectado, pulando envio.");
     return;
   }
+
+  String status = (peso > PESO_MAXIMO) ? "sobrepeso" : "ok";
+
   HTTPClient http;
-  http.begin(BRIDGE_URL);
+  http.begin(TAGO_URL);
   http.addHeader("Content-Type", "application/json");
-  String corpo = "{\"peso\":" + String(peso, 3) + ",\"status\":\"" + status + "\"}";
+  http.addHeader("Device-Token", TAGO_TOKEN);
+
+  String corpo = "[{\"variable\":\"peso_kg\",\"value\":" + String(peso, 3) + ",\"unit\":\"kg\"},"
+                 "{\"variable\":\"classificacao\",\"value\":\"" + classificacao + "\"},"
+                 "{\"variable\":\"status\",\"value\":\"" + status + "\"}]";
+
+  Serial.println("Enviando: " + corpo);
   int httpCode = http.POST(corpo);
-  if (httpCode == 200) {
-    Serial.println("Enviado com sucesso!");
+  if (httpCode == 200 || httpCode == 201) {
+    Serial.println("TagoIO: enviado! HTTP " + String(httpCode));
   } else {
-    Serial.println("Erro ao enviar. Codigo HTTP: " + String(httpCode));
+    Serial.println("TagoIO: erro HTTP " + String(httpCode));
+    Serial.println(http.getString());
   }
   http.end();
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(DT, INPUT);
   pinMode(SCK, OUTPUT);
   digitalWrite(SCK, LOW);
@@ -211,34 +224,34 @@ void loop() {
     float peso = rawParaKg(raw);
     peso = mediaMovel(peso);
     pesoAtual = peso;
-    String status = "";
+    String classificacao = "";
     if (peso < PESO_MINIMO) {
-      status = "Vazio";
+      classificacao = "VAZIO";
       setServo(90);
       setLED(true);
-      atualizarDisplay(peso, status, 5);
+      atualizarDisplay(peso, classificacao, 5);
     } else if (peso <= PESO_MEDIO) {
-      status = "ESQUERDA";
+      classificacao = "ESQUERDA";
       setLED(true);
-      atualizarDisplay(peso, status, 5);
+      atualizarDisplay(peso, classificacao, 5);
       setServo(0);
       delay(700);
       setServo(90);
     } else if (peso <= PESO_MAXIMO) {
-      status = "DIREITA";
+      classificacao = "DIREITA";
       setLED(true);
-      atualizarDisplay(peso, status, 5);
+      atualizarDisplay(peso, classificacao, 5);
       setServo(180);
       delay(700);
       setServo(90);
     } else {
-      status = "SOBREPESO";
+      classificacao = "SOBREPESO";
       setLED(false);
       mostrarAlerta(peso);
       delay(2000);
       setLED(true);
     }
-    enviarParaBridge(peso, status);
+    enviarParaTagoIO(peso, classificacao);
   }
   delay(200);
 }
