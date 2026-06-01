@@ -28,11 +28,11 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // --- CLASSIFICACAO ---
 #define PESO_MINIMO 0.05
-#define PESO_MEDIO  2.5
-#define PESO_MAXIMO 5.0
+#define PESO_MEDIO  2.0  
+#define PESO_MAXIMO 4.0  
 
 // --- TEMPORIZACAO ---
-#define INTERVALO_MS 5000
+#define INTERVALO_MS 20000 
 
 // --- VARIAVEIS GLOBAIS ---
 Servo myServo;
@@ -130,7 +130,7 @@ void mostrarAlerta(float peso) {
   display.print(" kg");
   display.setTextSize(1);
   display.setCursor(10, 45);
-  display.println("ACIMA DE 5 kg!");
+  display.println("ACIMA DE 4 kg!");
   display.setCursor(10, 55);
   display.println("Verifique carga");
   display.display();
@@ -229,18 +229,18 @@ void loop() {
       classificacao = "VAZIO";
       setServo(90);
       setLED(true);
-      atualizarDisplay(peso, classificacao, 5);
+      atualizarDisplay(peso, classificacao, 20);
     } else if (peso <= PESO_MEDIO) {
       classificacao = "ESQUERDA";
       setLED(true);
-      atualizarDisplay(peso, classificacao, 5);
+      atualizarDisplay(peso, classificacao, 20);
       setServo(0);
       delay(700);
       setServo(90);
     } else if (peso <= PESO_MAXIMO) {
       classificacao = "DIREITA";
       setLED(true);
-      atualizarDisplay(peso, classificacao, 5);
+      atualizarDisplay(peso, classificacao, 20);
       setServo(180);
       delay(700);
       setServo(90);
