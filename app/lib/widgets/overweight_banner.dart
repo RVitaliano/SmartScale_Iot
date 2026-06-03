@@ -72,7 +72,7 @@ class _OverweightBannerState extends State<OverweightBanner> {
                         ),
                         SizedBox(height: 2),
                         Text(
-                          'Limite de 5,0 kg excedido — remover carga.',
+                          'Limite de 4,0 kg excedido — remover carga.',
                           style: TextStyle(color: Colors.white70, fontSize: 12),
                         ),
                       ],

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -15,11 +16,23 @@ class RelatorioScreen extends StatefulWidget {
 
 class _RelatorioScreenState extends State<RelatorioScreen> {
   bool _loading = false;
+  Timer? _autoRefresh;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+    _autoRefresh = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (mounted && !_loading) {
+        context.read<SmartScaleProvider>().fetchHistorico();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoRefresh?.cancel();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -70,7 +83,7 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
                     }
 
                     final historico = provider.historico;
-                    final eventos = provider.sobrepesoLog;
+                    final eventos = historico.where((e) => e.pesoKg > 4.0).toList();
                     final maxPeso = historico.isEmpty
                         ? 0.0
                         : historico

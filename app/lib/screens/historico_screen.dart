@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,11 +16,23 @@ class HistoricoScreen extends StatefulWidget {
 
 class _HistoricoScreenState extends State<HistoricoScreen> {
   bool _loading = false;
+  Timer? _autoRefresh;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+    _autoRefresh = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (mounted && !_loading) {
+        context.read<SmartScaleProvider>().fetchHistorico();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _autoRefresh?.cancel();
+    super.dispose();
   }
 
   Future<void> _load() async {
