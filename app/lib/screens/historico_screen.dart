@@ -69,7 +69,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
 
                     final historico = provider.historico;
                     final sobrepesoCount =
-                        historico.where((e) => e.pesoKg > 5.0).length;
+                        historico.where((e) => e.pesoKg > 4.0).length;
                     final maxPeso = historico.isEmpty
                         ? 0.0
                         : historico
@@ -105,7 +105,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                 value:
                                     '${maxPeso.toStringAsFixed(2)} kg',
                                 icon: Icons.arrow_upward_rounded,
-                                isRed: maxPeso > 5.0,
+                                isRed: maxPeso > 4.0,
                               ),
                             ),
                           ],
@@ -170,7 +170,7 @@ class _HistoricoScreenState extends State<HistoricoScreen> {
                                     _LegendDash(color: AppColors.danger),
                                     const SizedBox(width: 6),
                                     const Text(
-                                      'Limite 5,0 kg',
+                                      'Limite 4,0 kg',
                                       style: TextStyle(
                                           color: AppColors.onSurfaceMuted,
                                           fontSize: 11),

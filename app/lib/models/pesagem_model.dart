@@ -22,12 +22,12 @@ class PesagemModel {
 
   static String _classificarPeso(double peso) {
     if (peso < 0.05) return 'VAZIO';
-    if (peso <= 2.5) return 'ESQUERDA';
-    if (peso <= 5.0) return 'DIREITA';
+    if (peso <= 2.0) return 'ESQUERDA';
+    if (peso <= 4.0) return 'DIREITA';
     return 'SOBREPESO';
   }
 
   static String _statusDePeso(double peso) {
-    return peso > 5.0 ? 'sobrepeso' : 'ok';
+    return peso > 4.0 ? 'sobrepeso' : 'ok';
   }
 }

@@ -171,7 +171,7 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
                               value: maxPeso.toStringAsFixed(2),
                               suffix: 'kg',
                               icon: Icons.arrow_upward_rounded,
-                              color: maxPeso > 5.0
+                              color: maxPeso > 4.0
                                   ? AppColors.danger
                                   : AppColors.primaryMid,
                             ),
@@ -473,7 +473,7 @@ class _OverweightEventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fmt = DateFormat('dd/MM/yyyy HH:mm:ss');
-    final excess = pesagem.pesoKg - 5.0;
+    final excess = pesagem.pesoKg - 4.0;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),

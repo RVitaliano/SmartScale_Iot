@@ -35,7 +35,7 @@ class WeightCard extends StatelessWidget {
                 CustomPaint(
                   size: const Size(220, 220),
                   painter: _WeightRingPainter(
-                    progress: (pesoKg / 5.0).clamp(0.0, 1.2),
+                    progress: (pesoKg / 4.0).clamp(0.0, 1.2),
                     color: color,
                   ),
                 ),

@@ -28,7 +28,7 @@ class _ChartPainter extends CustomPainter {
   final List<PesagemModel> data;
 
   static const double _maxY = 6.0;
-  static const double _limitY = 5.0;
+  static const double _limitY = 4.0;
 
   _ChartPainter({required this.data});
 

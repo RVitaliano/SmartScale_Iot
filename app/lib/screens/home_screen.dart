@@ -181,7 +181,7 @@ class _TelemetryStrip extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            _Cell(label: 'LIMITE', value: '5,0 kg'),
+            _Cell(label: 'LIMITE', value: '4,0 kg'),
             _Divider(),
             _Cell(label: 'SENSOR', value: 'HX711'),
             _Divider(),
@@ -256,10 +256,10 @@ class _LoadDistributionCard extends StatelessWidget {
   Map<String, double> get _activations {
     switch (classificacao.toUpperCase()) {
       case 'ESQUERDA':
-        final t = (pesoKg / 2.5).clamp(0.2, 1.0);
+        final t = (pesoKg / 2.0).clamp(0.2, 1.0);
         return {'TL': t, 'BL': t, 'TR': 0.12, 'BR': 0.12};
       case 'DIREITA':
-        final t = ((pesoKg - 2.5) / 2.5).clamp(0.2, 1.0);
+        final t = ((pesoKg - 2.0) / 2.0).clamp(0.2, 1.0);
         return {'TL': 0.12, 'BL': 0.12, 'TR': t, 'BR': t};
       case 'SOBREPESO':
         return {'TL': 1.0, 'BL': 1.0, 'TR': 1.0, 'BR': 1.0};
@@ -417,7 +417,7 @@ class _RecentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timeFmt = DateFormat('HH:mm:ss');
-    final isSobrepeso = pesagem.pesoKg > 5.0;
+    final isSobrepeso = pesagem.pesoKg > 4.0;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
