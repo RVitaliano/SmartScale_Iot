@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 
 import '../app_colors.dart';
@@ -33,55 +30,6 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
       provider.fetchHistorico(),
     ]);
     if (mounted) setState(() => _loading = false);
-  }
-
-  Future<void> _exportPdf(List<PesagemModel> eventos) async {
-    final pdf = pw.Document();
-    final fmt = DateFormat('dd/MM/yyyy HH:mm:ss');
-    final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
-
-    pdf.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        build: (ctx) => [
-          pw.Header(
-            level: 0,
-            child: pw.Text(
-              'SmartScale — Relatório de Sobrepeso',
-              style: pw.TextStyle(
-                  fontSize: 18, fontWeight: pw.FontWeight.bold),
-            ),
-          ),
-          pw.Text('Gerado em: $now',
-              style: const pw.TextStyle(fontSize: 10)),
-          pw.SizedBox(height: 16),
-          pw.Text('Total de ocorrências: ${eventos.length}',
-              style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-          pw.SizedBox(height: 12),
-          pw.TableHelper.fromTextArray(
-            headers: ['Data/Hora', 'Peso (kg)'],
-            data: eventos
-                .map((e) => [
-                      fmt.format(e.timestamp.toLocal()),
-                      e.pesoKg.toStringAsFixed(2),
-                    ])
-                .toList(),
-            headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-            cellAlignment: pw.Alignment.centerLeft,
-            border: pw.TableBorder.all(color: PdfColors.grey400),
-          ),
-          pw.Footer(
-            trailing: pw.Text('SmartScale — Faculdade Nova Roma',
-                style: const pw.TextStyle(fontSize: 9)),
-          ),
-        ],
-      ),
-    );
-
-    await Printing.layoutPdf(
-      onLayout: (_) async => pdf.save(),
-      name: 'smartscale_sobrepeso_$now.pdf',
-    );
   }
 
   @override
@@ -292,20 +240,6 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
               ),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: Consumer<SmartScaleProvider>(
-        builder: (_, provider, __) => FloatingActionButton.extended(
-          onPressed: provider.sobrepesoLog.isEmpty
-              ? null
-              : () => _exportPdf(provider.sobrepesoLog),
-          backgroundColor: AppColors.primaryMid,
-          disabledElevation: 0,
-          icon: const Icon(Icons.picture_as_pdf),
-          label: const Text(
-            'Exportar PDF',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
         ),
       ),
     );
