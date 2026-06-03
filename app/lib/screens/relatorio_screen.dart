@@ -203,36 +203,6 @@ class _RelatorioScreenState extends State<RelatorioScreen> {
                             ),
                           ),
 
-                        const SizedBox(height: 16),
-
-                        // Export hint box
-                        Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceCard,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: AppColors.outline,
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: Row(
-                            children: const [
-                              Icon(Icons.download_rounded,
-                                  color: AppColors.onSurfaceDim, size: 20),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  'Toque no botão abaixo para gerar um PDF com todas as ocorrências de sobrepeso.',
-                                  style: TextStyle(
-                                    color: AppColors.onSurfaceDim,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     );
                   },
@@ -411,7 +381,7 @@ class _OverweightEventTile extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.outlineSoft)),
       ),
       child: Row(
