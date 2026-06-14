@@ -144,11 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 12),
                               _TelemetryStrip(uptime: uptime),
                               const SizedBox(height: 12),
-                              _LoadDistributionCard(
-                                classificacao: provider.classificacao,
-                                pesoKg: provider.pesoAtual,
-                              ),
-                              const SizedBox(height: 12),
                               _RecentEventsCard(readings: recentReadings),
                             ],
                           ),
@@ -242,125 +237,6 @@ class _Divider extends StatelessWidget {
   }
 }
 
-// ─── Load Distribution ────────────────────────────────────────────────────────
-
-class _LoadDistributionCard extends StatelessWidget {
-  final String classificacao;
-  final double pesoKg;
-
-  const _LoadDistributionCard({
-    required this.classificacao,
-    required this.pesoKg,
-  });
-
-  Map<String, double> get _activations {
-    switch (classificacao.toUpperCase()) {
-      case 'ESQUERDA':
-        final t = (pesoKg / 2.0).clamp(0.2, 1.0);
-        return {'TL': t, 'BL': t, 'TR': 0.12, 'BR': 0.12};
-      case 'DIREITA':
-        final t = ((pesoKg - 2.0) / 2.0).clamp(0.2, 1.0);
-        return {'TL': 0.12, 'BL': 0.12, 'TR': t, 'BR': t};
-      case 'SOBREPESO':
-        return {'TL': 1.0, 'BL': 1.0, 'TR': 1.0, 'BR': 1.0};
-      default:
-        return {'TL': 0.08, 'BL': 0.08, 'TR': 0.08, 'BR': 0.08};
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final color = AppColors.fromClassificacao(classificacao);
-    final a = _activations;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.outline),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'DISTRIBUIÇÃO DA CARGA',
-            style: TextStyle(
-              color: AppColors.onSurfaceDim,
-              fontSize: 10,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.0,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                  child:
-                      _LoadCell(label: 'TL', activation: a['TL']!, color: color)),
-              const SizedBox(width: 8),
-              Expanded(
-                  child:
-                      _LoadCell(label: 'TR', activation: a['TR']!, color: color)),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                  child:
-                      _LoadCell(label: 'BL', activation: a['BL']!, color: color)),
-              const SizedBox(width: 8),
-              Expanded(
-                  child:
-                      _LoadCell(label: 'BR', activation: a['BR']!, color: color)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LoadCell extends StatelessWidget {
-  final String label;
-  final double activation;
-  final Color color;
-
-  const _LoadCell({
-    required this.label,
-    required this.activation,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-      height: 52,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: activation * 0.18),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-            color: color.withValues(alpha: (activation * 0.5).clamp(0.08, 0.6))),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: TextStyle(
-            color: color.withValues(
-                alpha: (activation * 1.2).clamp(0.3, 1.0)),
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // ─── Recent Events ────────────────────────────────────────────────────────────
 
 class _RecentEventsCard extends StatelessWidget {
@@ -421,7 +297,7 @@ class _RecentRow extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.outlineSoft)),
       ),
       child: Row(
