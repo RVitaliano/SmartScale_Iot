@@ -137,9 +137,3 @@ O TagoIO recebe as variáveis enviadas pelo ESP32 a cada 20 segundos:
 | Exportação PDF | pdf + printing |
 
 ---
-
-## 🔒 Segurança
-
-O Device Token do TagoIO nunca é commitado no repositório. No app ele é injetado em tempo de compilação via `--dart-define`. O arquivo `.vscode/launch.json` com o token está no `.gitignore`.
-
----
